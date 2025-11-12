@@ -2,7 +2,9 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CardDespesasList } from "../components/cardDespesa";
+import { FormDespesa } from "../components/formDespesa";
 import { MenuBar } from "../components/menu";
+import { ModalFormDespesa } from "../components/modalFormDespesa";
 
 type Despesa = {
     id: number,
@@ -11,6 +13,8 @@ type Despesa = {
 }
 
 export default function Home() {
+
+    const [modalOpen, setModalOpen] = useState(false);
 
     const [totalDespesas, setTotalDespesas] = useState(0);
     const [despesas, setDespesas] = useState<Despesa[]>([
@@ -34,12 +38,15 @@ export default function Home() {
                     <Text style={styles.totalValor}>R$ {totalDespesas}</Text>
                 </View>
                 <View style={styles.cardList}>
-                    <CardDespesasList despesas={despesas}/>
+                    <CardDespesasList despesas={despesas} />
                 </View>
             </View>
             <View style={styles.menu}>
-                <MenuBar page="home" />
+                <MenuBar page="home" setModalOpen={setModalOpen} />
             </View>
+            <ModalFormDespesa isOpen={modalOpen}>
+                <FormDespesa onClose={() => setModalOpen(false)}/>
+            </ModalFormDespesa>
         </SafeAreaView>
     );
 }

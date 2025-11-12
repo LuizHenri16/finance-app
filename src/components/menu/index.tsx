@@ -3,11 +3,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 
 interface MenuBarProps {
-    page?: string
+    page?: string,
+    setModalOpen?: (open: boolean) => void
 }
 
 
-export const MenuBar = ({page}: MenuBarProps) => {
+export const MenuBar = ({page, setModalOpen}: MenuBarProps) => {
     const routerNavigation = useRouter();
 
     const addIconName = page === "home" ? "despesa" : "saldo"
@@ -15,7 +16,7 @@ export const MenuBar = ({page}: MenuBarProps) => {
     return (
         <View style={styles.container}>
             <MenuButton type={"material"} icon={"home"} name="despesa" color={"#727272"} navigation={() => routerNavigation.navigate("/")}/>
-            <MenuButton type={"material-community"} icon={"plus-circle"} name={addIconName} color={"#3B89D8"} />
+            <MenuButton type={"material-community"} icon={"plus-circle"} name={addIconName} navigation={setModalOpen ? () => setModalOpen(true): undefined} color={"#3B89D8"}/>
             <MenuButton type={"material-community"} icon={"cash"} name="receita" color={"#727272"} navigation={() => routerNavigation.navigate("/receita")}/>
         </View>
     )
