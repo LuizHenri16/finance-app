@@ -1,5 +1,7 @@
 import { CardReceitaList } from "@/src/components/cardReceita";
+import { FormReceita } from "@/src/components/formReceita";
 import { MenuBar } from "@/src/components/menu";
+import { ModalFormReceita } from "@/src/components/modalFormReceita";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,6 +13,10 @@ type Receita = {
 }
 
 export default function Receita() {
+
+    const [modalOpen, setModalOpen] = useState(false);
+
+
     const [receitas, setReceitas] = useState<Receita[]>([
         { id: 1, descricao: "Salário", valor: 3200 },
         { id: 2, descricao: "Freelancer", valor: 450 },
@@ -37,8 +43,11 @@ export default function Receita() {
                 </View>
             </View>
             <View style={styles.menu}>
-                <MenuBar page="receita" />
+                <MenuBar page="receita" setModalOpen={setModalOpen}/>
             </View>
+            <ModalFormReceita isOpen={modalOpen}>
+                <FormReceita onClose={() => setModalOpen(false)}/>
+            </ModalFormReceita>
         </SafeAreaView>
 
     );

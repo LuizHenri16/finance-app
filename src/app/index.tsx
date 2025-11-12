@@ -23,7 +23,6 @@ export default function Home() {
         { id: 3, descricao: "Internet", valor: 100 }
     ]);
 
-    // Calcular valor total das despesas  // verificar novamente para melhorias
     useEffect(() => {
         const total = despesas.reduce((sum, despesa) => sum + (despesa.valor || 0), 0);
         setTotalDespesas(total);
