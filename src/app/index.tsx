@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { CardDespesa } from "../components/cardDespesa";
+import { CardDespesasList } from "../components/cardDespesa";
 import { MenuBar } from "../components/menu";
 
 type Despesa = {
@@ -24,7 +24,7 @@ export default function Home() {
                     <Text style={styles.totalValor}>R$ {totalDespesas}</Text>
                 </View>
                 <View style={styles.cardList}>
-                    <CardDespesa />
+                    <CardDespesasList />
                 </View>
             </View>
             <View style={styles.menu}>
@@ -46,6 +46,7 @@ const styles = StyleSheet.create(
         },
 
         cardList: {
+            flex: 1,
             marginTop: 32,
         },
 
