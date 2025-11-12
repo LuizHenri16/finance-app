@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
     },
 
     MenuButton: {
-        flexDirection: "column"
+        flexDirection: "column",
+        width: 56,
     },
 
     Text: {

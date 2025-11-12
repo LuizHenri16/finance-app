@@ -4,26 +4,26 @@ import { Icon } from "react-native-elements";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-type Despesa = {
+type Receita = {
     id: number;
     valor?: number,
     descricao?: string,
 }
 
-interface CardDespesaProps {
-    despesa: Despesa;
+interface CardDReceitaProps {
+    receita: Receita;
 }
 
-const deleteItem = (id: number, despesas: Despesa[], setDespesas: React.Dispatch<React.SetStateAction<Despesa[]>>) => {
+const deleteItem = (id: number, despesas: Receita[], setDespesas: React.Dispatch<React.SetStateAction<Receita[]>>) => {
     const newDespesas = despesas.filter(item => item.id !== id);
     setDespesas(newDespesas);
 };
 
 interface HiddenItemProps {
-    data: { item: Despesa };
+    data: { item: Receita };
     rowMap: any;
-    despesas: Despesa[];
-    setDespesas: React.Dispatch<React.SetStateAction<Despesa[]>>;
+    despesas: Receita[];
+    setDespesas: React.Dispatch<React.SetStateAction<Receita[]>>;
 }
 
 const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenItemProps) => {
@@ -45,7 +45,7 @@ const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenIt
             { text: 'Cancelar', style: 'cancel', onPress: () => closeRow(item.id) },
             {
                 text: 'Excluir',
-                style: "default",
+                style: 'destructive',
                 onPress: () => {
                     deleteItem(item.id, despesas, setDespesas);
                 }
@@ -68,21 +68,21 @@ const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenIt
     );
 };
 
-interface CardDespesasListProps {
-    despesas: Despesa[];
+interface CardDReceitasListProps {
+    receitas: Receita[];
 }
 
-export const CardDespesasList = ({despesas} : CardDespesasListProps) => {
-    const [despesasList, setDespesasList] = useState<Despesa[]>(despesas);
+export const CardReceitaList = ({ receitas }: CardDReceitasListProps) => {
+    const [receitaList, setReceitaList] = useState<Receita[]>(receitas);
 
     return (
         <GestureHandlerRootView style={styles.swipeListContainer}>
             <SwipeListView
-                data={despesasList}
+                data={receitaList}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.rowFront}>
-                        <CardDespesa despesa={item} />
+                        <CardReceita receita={item} />
                     </View>
                 )}
 
@@ -90,8 +90,8 @@ export const CardDespesasList = ({despesas} : CardDespesasListProps) => {
                     <HiddenItemWithActions
                         data={data}
                         rowMap={rowMap}
-                        despesas={despesas}
-                        setDespesas={setDespesasList}
+                        despesas={receitas}
+                        setDespesas={setReceitaList}
                     />
                 )}
                 style={styles.swipeListContainer}
@@ -103,19 +103,14 @@ export const CardDespesasList = ({despesas} : CardDespesasListProps) => {
 }
 
 
-const CardDespesa = ({ despesa }: CardDespesaProps) => {
+const CardReceita = ({ receita }: CardDReceitaProps) => {
     return (
         <View style={styles.cardContainer}>
             <View style={styles.descricaoBox}>
-                <View style={styles.iconBox}>
-                </View>
-                <View>
-                    <Text style={styles.descricaoText}>{despesa.descricao}</Text>
-                    <Text style={styles.categoriaText}>despesa</Text>
-                </View>
+                <Text style={styles.descricaoText}>{receita.descricao}</Text>
             </View>
             <View style={styles.valorBox}>
-                <Text style={styles.valorText}>R$ {despesa.valor?.toFixed(2)}</Text>
+                <Text style={styles.valorText}>R$ {receita.valor?.toFixed(2)}</Text>
                 <TouchableOpacity>
                     <Icon type="font-awesome" name="arrow-right" size={10} color={"#a9a9a9ff"} />
                 </TouchableOpacity>
@@ -145,7 +140,7 @@ const styles = StyleSheet.create(
             marginBottom: 16,
             backgroundColor: 'white',
             borderRadius: 12,
-            elevation: 2,  
+            elevation: 2,
         },
 
         rowBack: {
@@ -190,7 +185,7 @@ const styles = StyleSheet.create(
             backgroundColor: "#EFEFEF"
         },
         descricaoText: {
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: "bold",
         },
         categoriaText: {
@@ -201,7 +196,7 @@ const styles = StyleSheet.create(
         valorText: {
             fontSize: 20,
             fontWeight: "bold",
-            color: "#B54239",
+            color: "#4AA67C",
         },
         valorBox: {
             alignItems: "flex-end"

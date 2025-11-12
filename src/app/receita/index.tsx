@@ -1,15 +1,39 @@
+import { CardReceitaList } from "@/src/components/cardReceita";
 import { MenuBar } from "@/src/components/menu";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+type Receita = {
+    id: number,
+    valor?: number,
+    descricao?: string,
+}
+
 export default function Receita() {
+    const [receitas, setReceitas] = useState<Receita[]>([
+        { id: 1, descricao: "Salário", valor: 3200 },
+        { id: 2, descricao: "Freelancer", valor: 450 },
+    ]);
+
+    const [totalReceitas, setTotalReceitas] = useState(0);
+
+    useEffect(() => {
+        const total = receitas.reduce((sum, receita) => sum + (receita.valor || 0), 0);
+        setTotalReceitas(total);
+    })
+
     return (
         <SafeAreaView style={styles.display}>
             <View style={styles.main}>
                 <Text style={styles.title}>Receita</Text>
                 <View style={styles.totalContainer}>
-                    <Text style={styles.totalValorTitle}>Total: </Text>
-                    <Text style={styles.totalValor}>R$ </Text>
+                    <Text style={styles.totalValorTitle}>Total:  </Text>
+                    <Text style={styles.totalValor}>R$ {totalReceitas}</Text>
+                </View>
+
+                <View style={styles.cardList}>
+                    <CardReceitaList receitas={receitas} />
                 </View>
             </View>
             <View style={styles.menu}>
@@ -37,7 +61,12 @@ const styles = StyleSheet.create(
         menu: {
             width: "100%",
             alignItems: "center",
-            marginBottom: 16
+            marginBottom: 0
+        },
+
+        cardList: {
+            flex: 1,
+            marginTop: 32,
         },
 
         title: {

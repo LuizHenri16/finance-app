@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { CardDespesasList } from "../components/cardDespesa";
@@ -13,7 +13,17 @@ type Despesa = {
 export default function Home() {
 
     const [totalDespesas, setTotalDespesas] = useState(0);
-    const [despesas, setDespesas] = useState<Despesa[]>([]);
+    const [despesas, setDespesas] = useState<Despesa[]>([
+        { id: 1, descricao: "Aluguel", valor: 1200 },
+        { id: 2, descricao: "Supermercado", valor: 450 },
+        { id: 3, descricao: "Internet", valor: 100 }
+    ]);
+
+    // Calcular valor total das despesas  // verificar novamente para melhorias
+    useEffect(() => {
+        const total = despesas.reduce((sum, despesa) => sum + (despesa.valor || 0), 0);
+        setTotalDespesas(total);
+    }, [despesas])
 
     return (
         <SafeAreaView style={styles.display}>
@@ -24,14 +34,13 @@ export default function Home() {
                     <Text style={styles.totalValor}>R$ {totalDespesas}</Text>
                 </View>
                 <View style={styles.cardList}>
-                    <CardDespesasList />
+                    <CardDespesasList despesas={despesas}/>
                 </View>
             </View>
             <View style={styles.menu}>
                 <MenuBar page="home" />
             </View>
         </SafeAreaView>
-
     );
 }
 
@@ -42,7 +51,6 @@ const styles = StyleSheet.create(
             flex: 1,
             padding: 16,
             backgroundColor: "#FDFDFD",
-
         },
 
         cardList: {
@@ -57,7 +65,7 @@ const styles = StyleSheet.create(
         menu: {
             width: "100%",
             alignItems: "center",
-            marginBottom: 16
+            marginBottom: 0
         },
 
         title: {
