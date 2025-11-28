@@ -1,29 +1,25 @@
+import { ReceitaPersisted } from "@/src/types/receita";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-type Receita = {
-    id: number;
-    valor?: number,
-    descricao?: string,
-}
 
 interface CardDReceitaProps {
-    receita: Receita;
+    receita: ReceitaPersisted;
 }
 
-const deleteItem = (id: number, despesas: Receita[], setDespesas: React.Dispatch<React.SetStateAction<Receita[]>>) => {
+const deleteItem = (id: number, despesas: ReceitaPersisted[], setDespesas: React.Dispatch<React.SetStateAction<ReceitaPersisted[]>>) => {
     const newDespesas = despesas.filter(item => item.id !== id);
     setDespesas(newDespesas);
 };
 
 interface HiddenItemProps {
-    data: { item: Receita };
+    data: { item: ReceitaPersisted };
     rowMap: any;
-    despesas: Receita[];
-    setDespesas: React.Dispatch<React.SetStateAction<Receita[]>>;
+    despesas: ReceitaPersisted[];
+    setDespesas: React.Dispatch<React.SetStateAction<ReceitaPersisted[]>>;
 }
 
 const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenItemProps) => {
@@ -69,11 +65,11 @@ const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenIt
 };
 
 interface CardDReceitasListProps {
-    receitas: Receita[];
+    receitas: ReceitaPersisted[];
 }
 
 export const CardReceitaList = ({ receitas }: CardDReceitasListProps) => {
-    const [receitaList, setReceitaList] = useState<Receita[]>(receitas);
+    const [receitaList, setReceitaList] = useState<ReceitaPersisted[]>(receitas);
 
     return (
         <GestureHandlerRootView style={styles.swipeListContainer}>

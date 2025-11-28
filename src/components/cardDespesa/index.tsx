@@ -1,29 +1,26 @@
+
+import { DespesaPersisted } from "@/src/types/despesa";
 import { useState } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { SwipeListView } from 'react-native-swipe-list-view';
 
-type Despesa = {
-    id: number;
-    valor?: number,
-    descricao?: string,
-}
 
 interface CardDespesaProps {
-    despesa: Despesa;
+    despesa: DespesaPersisted;
 }
 
-const deleteItem = (id: number, despesas: Despesa[], setDespesas: React.Dispatch<React.SetStateAction<Despesa[]>>) => {
+const deleteItem = (id: number, despesas: DespesaPersisted[], setDespesas: React.Dispatch<React.SetStateAction<DespesaPersisted[]>>) => {
     const newDespesas = despesas.filter(item => item.id !== id);
     setDespesas(newDespesas);
 };
 
 interface HiddenItemProps {
-    data: { item: Despesa };
+    data: { item: DespesaPersisted };
     rowMap: any;
-    despesas: Despesa[];
-    setDespesas: React.Dispatch<React.SetStateAction<Despesa[]>>;
+    despesas: DespesaPersisted[];
+    setDespesas: React.Dispatch<React.SetStateAction<DespesaPersisted[]>>;
 }
 
 const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenItemProps) => {
@@ -69,11 +66,11 @@ const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenIt
 };
 
 interface CardDespesasListProps {
-    despesas: Despesa[];
+    despesas: DespesaPersisted[];
 }
 
 export const CardDespesasList = ({despesas} : CardDespesasListProps) => {
-    const [despesasList, setDespesasList] = useState<Despesa[]>(despesas);
+    const [despesasList, setDespesasList] = useState<DespesaPersisted[]>(despesas);
 
     return (
         <GestureHandlerRootView style={styles.swipeListContainer}>

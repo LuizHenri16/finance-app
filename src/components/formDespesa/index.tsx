@@ -1,12 +1,8 @@
+import { DespesaPersist } from "@/src/types/despesa";
 import { useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconButton } from "../button";
-
-type Despesa = {
-    descricao: string;
-    valor: number;
-}
 
 interface FormDespesaProps {
     onClose?: () => void
@@ -14,7 +10,7 @@ interface FormDespesaProps {
 
 export const FormDespesa = ({onClose}: FormDespesaProps) => {
 
-    const [despesaPayLoad, setDespesaPayload] = useState<Despesa>({descricao: "", valor: 0})
+    const [despesaPayLoad, setDespesaPayload] = useState<DespesaPersist>({descricao: "", valor: 0})
 
     return (
         <SafeAreaView style={styles.container}>

@@ -2,22 +2,18 @@ import { CardReceitaList } from "@/src/components/cardReceita";
 import { FormReceita } from "@/src/components/formReceita";
 import { MenuBar } from "@/src/components/menu";
 import { ModalFormReceita } from "@/src/components/modalFormReceita";
+import { ReceitaPersisted } from "@/src/types/receita";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-type Receita = {
-    id: number,
-    valor?: number,
-    descricao?: string,
-}
 
 export default function Receita() {
 
     const [modalOpen, setModalOpen] = useState(false);
 
 
-    const [receitas, setReceitas] = useState<Receita[]>([
+    const [receitas, setReceitas] = useState<ReceitaPersisted[]>([
         { id: 1, descricao: "Salário", valor: 3200 },
         { id: 2, descricao: "Freelancer", valor: 450 },
     ]);
