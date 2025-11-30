@@ -18,11 +18,11 @@ const deleteItem = (id: number, despesas: ReceitaPersisted[], setDespesas: React
 interface HiddenItemProps {
     data: { item: ReceitaPersisted };
     rowMap: any;
-    despesas: ReceitaPersisted[];
-    setDespesas: React.Dispatch<React.SetStateAction<ReceitaPersisted[]>>;
+    receitas: ReceitaPersisted[];
+    setReceitas: React.Dispatch<React.SetStateAction<ReceitaPersisted[]>>;
 }
 
-const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenItemProps) => {
+const HiddenItemWithActions = ({ data, rowMap, receitas, setReceitas }: HiddenItemProps) => {
     const item = data.item;
 
     const closeRow = (rowKey: number) => {
@@ -43,7 +43,7 @@ const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenIt
                 text: 'Excluir',
                 style: 'destructive',
                 onPress: () => {
-                    deleteItem(item.id, despesas, setDespesas);
+                    deleteItem(item.id, receitas, setReceitas);
                 }
             },
         ]);
@@ -86,8 +86,8 @@ export const CardReceitaList = ({ receitas }: CardDReceitasListProps) => {
                     <HiddenItemWithActions
                         data={data}
                         rowMap={rowMap}
-                        despesas={receitas}
-                        setDespesas={setReceitaList}
+                        receitas={receitas}
+                        setReceitas={setReceitaList}
                     />
                 )}
                 style={styles.swipeListContainer}
