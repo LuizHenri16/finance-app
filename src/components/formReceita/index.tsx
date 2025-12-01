@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { FinanceContext } from "@/src/contexts/FinanceContext";
+import { useContext, useState } from "react";
 import { StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { IconButton } from "../button";
@@ -13,15 +14,22 @@ interface FormReceitasProps {
 }
 
 export const FormReceita = ({onClose}: FormReceitasProps) => {
+    const [despesaPayLoad, setDespesaPayload] = useState<Receita>({descricao: "", valor: 0});
+    const finance = useContext(FinanceContext);
 
-    const [despesaPayLoad, setDespesaPayload] = useState<Receita>({descricao: "", valor: 0})
+    function HandleSubmit() {
+        finance?.addReceita(despesaPayLoad)
+        setDespesaPayload({descricao: "", valor: 0})
+    }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
                 <IconButton icon="chevron-left" type="material" navigation={onClose}/>
                 <Text style={styles.title}>Adicionar Receita</Text>
-                <IconButton icon="check" type="material" />
+                <TouchableOpacity onPress={() => {HandleSubmit()}}>
+                     <IconButton icon="check" type="material" />
+                </TouchableOpacity>
             </View>
 
             <View style={{gap: 12,}}>
@@ -47,7 +55,7 @@ export const FormReceita = ({onClose}: FormReceitasProps) => {
                     </View>
                 </View>
             </View>
-            <TouchableOpacity style={styles.button}>
+            <TouchableOpacity style={styles.button} onPress={() => {HandleSubmit()}}>
                 <Text style={styles.buttonText}>Adicionar Receita</Text>
             </TouchableOpacity>
         </SafeAreaView>

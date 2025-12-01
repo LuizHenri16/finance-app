@@ -2,28 +2,14 @@ import { CardReceitaList } from "@/src/components/cardReceita";
 import { FormReceita } from "@/src/components/formReceita";
 import { MenuBar } from "@/src/components/menu";
 import { ModalFormReceita } from "@/src/components/modalFormReceita";
-import { ReceitaPersisted } from "@/src/types/receita";
-import { useEffect, useState } from "react";
+import { FinanceContext } from "@/src/contexts/FinanceContext";
+import { useContext, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-
 export default function Receita() {
-
     const [modalOpen, setModalOpen] = useState(false);
-
-
-    const [receitas, setReceitas] = useState<ReceitaPersisted[]>([
-        { id: 1, descricao: "Salário", valor: 3200 },
-        { id: 2, descricao: "Freelancer", valor: 450 },
-    ]);
-
-    const [totalReceitas, setTotalReceitas] = useState(0);
-
-    useEffect(() => {
-        const total = receitas.reduce((sum, receita) => sum + (receita.valor || 0), 0);
-        setTotalReceitas(total);
-    })
+    const finance = useContext(FinanceContext);
 
     return (
         <SafeAreaView style={styles.display}>
@@ -31,11 +17,11 @@ export default function Receita() {
                 <Text style={styles.title}>Receita</Text>
                 <View style={styles.totalContainer}>
                     <Text style={styles.totalValorTitle}>Total:  </Text>
-                    <Text style={styles.totalValor}>R$ {totalReceitas}</Text>
+                    <Text style={styles.totalValor}>R$ {finance?.totalReceitas}</Text>
                 </View>
 
                 <View style={styles.cardList}>
-                    <CardReceitaList receitas={receitas} />
+                    <CardReceitaList receitas={finance?.receitas ?? []} />
                 </View>
             </View>
             <View style={styles.menu}>
@@ -45,7 +31,6 @@ export default function Receita() {
                 <FormReceita onClose={() => setModalOpen(false)}/>
             </ModalFormReceita>
         </SafeAreaView>
-
     );
 }
 

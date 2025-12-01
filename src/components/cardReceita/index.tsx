@@ -1,5 +1,6 @@
+import { FinanceContext } from "@/src/contexts/FinanceContext";
 import { ReceitaPersisted } from "@/src/types/receita";
-import { useState } from "react";
+import { useContext } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -19,11 +20,11 @@ interface HiddenItemProps {
     data: { item: ReceitaPersisted };
     rowMap: any;
     receitas: ReceitaPersisted[];
-    setReceitas: React.Dispatch<React.SetStateAction<ReceitaPersisted[]>>;
 }
 
-const HiddenItemWithActions = ({ data, rowMap, receitas, setReceitas }: HiddenItemProps) => {
+const HiddenItemWithActions = ({ data, rowMap }: HiddenItemProps) => {
     const item = data.item;
+    const finance = useContext(FinanceContext);
 
     const closeRow = (rowKey: number) => {
         if (rowMap[rowKey]) {
@@ -43,7 +44,7 @@ const HiddenItemWithActions = ({ data, rowMap, receitas, setReceitas }: HiddenIt
                 text: 'Excluir',
                 style: 'destructive',
                 onPress: () => {
-                    deleteItem(item.id, receitas, setReceitas);
+                    finance?.removeReceita(item.id);
                 }
             },
         ]);
@@ -69,12 +70,10 @@ interface CardDReceitasListProps {
 }
 
 export const CardReceitaList = ({ receitas }: CardDReceitasListProps) => {
-    const [receitaList, setReceitaList] = useState<ReceitaPersisted[]>(receitas);
-
     return (
         <GestureHandlerRootView style={styles.swipeListContainer}>
             <SwipeListView
-                data={receitaList}
+                data={receitas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.rowFront}>
@@ -87,7 +86,6 @@ export const CardReceitaList = ({ receitas }: CardDReceitasListProps) => {
                         data={data}
                         rowMap={rowMap}
                         receitas={receitas}
-                        setReceitas={setReceitaList}
                     />
                 )}
                 style={styles.swipeListContainer}

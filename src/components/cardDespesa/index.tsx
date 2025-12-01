@@ -1,6 +1,7 @@
 
+import { FinanceContext } from "@/src/contexts/FinanceContext";
 import { DespesaPersisted } from "@/src/types/despesa";
-import { useState } from "react";
+import { useContext } from "react";
 import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -11,20 +12,15 @@ interface CardDespesaProps {
     despesa: DespesaPersisted;
 }
 
-const deleteItem = (id: number, despesas: DespesaPersisted[], setDespesas: React.Dispatch<React.SetStateAction<DespesaPersisted[]>>) => {
-    const newDespesas = despesas.filter(item => item.id !== id);
-    setDespesas(newDespesas);
-};
-
 interface HiddenItemProps {
     data: { item: DespesaPersisted };
     rowMap: any;
     despesas: DespesaPersisted[];
-    setDespesas: React.Dispatch<React.SetStateAction<DespesaPersisted[]>>;
 }
 
-const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenItemProps) => {
+const HiddenItemWithActions = ({ data, rowMap }: HiddenItemProps) => {
     const item = data.item;
+    const finance = useContext(FinanceContext);
 
     const closeRow = (rowKey: number) => {
         if (rowMap[rowKey]) {
@@ -44,7 +40,7 @@ const HiddenItemWithActions = ({ data, rowMap, despesas, setDespesas }: HiddenIt
                 text: 'Excluir',
                 style: "default",
                 onPress: () => {
-                    deleteItem(item.id, despesas, setDespesas);
+                    finance?.removeDespesa(item.id);
                 }
             },
         ]);
@@ -70,12 +66,11 @@ interface CardDespesasListProps {
 }
 
 export const CardDespesasList = ({despesas} : CardDespesasListProps) => {
-    const [despesasList, setDespesasList] = useState<DespesaPersisted[]>(despesas);
 
     return (
         <GestureHandlerRootView style={styles.swipeListContainer}>
             <SwipeListView
-                data={despesasList}
+                data={despesas}
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.rowFront}>
@@ -87,8 +82,7 @@ export const CardDespesasList = ({despesas} : CardDespesasListProps) => {
                     <HiddenItemWithActions
                         data={data}
                         rowMap={rowMap}
-                        despesas={despesas}
-                        setDespesas={setDespesasList}
+                        despesas={despesas}  
                     />
                 )}
                 style={styles.swipeListContainer}
