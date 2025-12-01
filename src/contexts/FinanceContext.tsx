@@ -11,13 +11,15 @@ type FinanceContextType = {
   addReceita: (receita: ReceitaPersist) => void;
   removeReceita: (id: number) => void;
   saldo: number;
+  totalDespesas: number;
+  totalReceitas: number
 };
 
 export const FinanceContext = createContext<FinanceContextType | null>(null);
 
 export function FinanceProvider({ children }: { children: ReactNode }) {
 
-    const [despesas, setDespesas] = useState<DespesaPersisted[]>([]);
+  const [despesas, setDespesas] = useState<DespesaPersisted[]>([]);
   const [receitas, setReceitas] = useState<ReceitaPersisted[]>([]);
 
   function addDespesa(despesa: DespesaPersist) {
@@ -42,18 +44,24 @@ export function FinanceProvider({ children }: { children: ReactNode }) {
     receitas.reduce((acc, r) => acc + (r.valor ?? 0), 0) -
     despesas.reduce((acc, d) => acc + (d.valor ?? 0), 0);
 
+  const totalDespesas = despesas.reduce((acc, d) => acc + (d.valor ?? 0), 0);
+  const totalReceitas = receitas.reduce((acc, r) => acc + (r.valor ?? 0), 0);
 
-    return (
-        <FinanceContext.Provider value={{
-        despesas,
-        receitas,
-        addDespesa,
-        removeDespesa,
-        addReceita,
-        removeReceita,
-        saldo,
-      }}> 
-            {children}
-        </FinanceContext.Provider>
-    );
+
+
+  return (
+    <FinanceContext.Provider value={{
+      despesas,
+      receitas,
+      addDespesa,
+      removeDespesa,
+      addReceita,
+      removeReceita,
+      saldo,
+      totalDespesas,
+      totalReceitas
+    }}>
+      {children}
+    </FinanceContext.Provider>
+  );
 }
