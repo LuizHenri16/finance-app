@@ -23,12 +23,10 @@ export const FormDespesa = ({onClose}: FormDespesaProps) => {
             <View style={styles.topBar}>
                 <IconButton icon="chevron-left" type="material" navigation={onClose}/>
                 <Text style={styles.title}>Nova Despesa</Text>
-                <TouchableOpacity onPress={() => {HandleSubmit()}}>
-                     <IconButton icon="check" type="material" />
-                </TouchableOpacity>
+                <IconButton navigation={() => { HandleSubmit() }} icon="check" type="material" />
             </View>
 
-            <View style={{gap: 12,}}>
+            <View>
                 <View>
                     <Text style={styles.label}>Valor</Text>
                     <View style={styles.inputText}>
@@ -73,12 +71,13 @@ const styles = StyleSheet.create({
 
     title: {
         fontSize: 24,
-        fontWeight: "medium"
+        fontWeight: "800"
     },
 
     label: {
         fontSize: 16,
-        color: "#838383"
+        color: "#838383",
+        marginTop: 12,
     },
 
     inputText: {

@@ -13,26 +13,25 @@ interface FormReceitasProps {
     onClose?: () => void
 }
 
-export const FormReceita = ({onClose}: FormReceitasProps) => {
-    const [despesaPayLoad, setDespesaPayload] = useState<Receita>({descricao: "", valor: 0});
+export const FormReceita = ({ onClose }: FormReceitasProps) => {
+    const [despesaPayLoad, setDespesaPayload] = useState<Receita>({ descricao: "", valor: 0 });
     const finance = useContext(FinanceContext);
 
     function HandleSubmit() {
         finance?.addReceita(despesaPayLoad)
-        setDespesaPayload({descricao: "", valor: 0})
+        setDespesaPayload({ descricao: "", valor: 0 })
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topBar}>
-                <IconButton icon="chevron-left" type="material" navigation={onClose}/>
+                <IconButton icon="chevron-left" type="material" navigation={onClose} />
                 <Text style={styles.title}>Adicionar Receita</Text>
-                <TouchableOpacity onPress={() => {HandleSubmit()}}>
-                     <IconButton icon="check" type="material" />
-                </TouchableOpacity>
+                <IconButton navigation={() => { HandleSubmit() }} icon="check" type="material" />
+
             </View>
 
-            <View style={{gap: 12,}}>
+            <View>
                 <View>
                     <Text style={styles.label}>Valor</Text>
                     <View style={styles.inputText}>
@@ -41,21 +40,21 @@ export const FormReceita = ({onClose}: FormReceitasProps) => {
                             onChangeText={
                                 (text) => {
                                     const valorNumerico = parseFloat(text.replace(',', '.'));
-                                    setDespesaPayload({...despesaPayLoad, valor: isNaN(valorNumerico) ? 0 : valorNumerico})
-                            }}
+                                    setDespesaPayload({ ...despesaPayLoad, valor: isNaN(valorNumerico) ? 0 : valorNumerico })
+                                }}
                             style={styles.input} placeholder="0,00"></TextInput>
                     </View>
                 </View>
 
-                <View> 
+                <View>
                     <Text style={styles.label}>Descrição</Text>
                     <View style={styles.inputText}>
-                        <TextInput onChangeText={(text) => { setDespesaPayload({...despesaPayLoad, descricao: text})}} 
-                                   multiline={true} style={styles.input} placeholder="descrição"></TextInput>
+                        <TextInput onChangeText={(text) => { setDespesaPayload({ ...despesaPayLoad, descricao: text }) }}
+                            multiline={true} style={styles.input} placeholder="descrição"></TextInput>
                     </View>
                 </View>
             </View>
-            <TouchableOpacity style={styles.button} onPress={() => {HandleSubmit()}}>
+            <TouchableOpacity style={styles.button} onPress={() => { HandleSubmit() }}>
                 <Text style={styles.buttonText}>Adicionar Receita</Text>
             </TouchableOpacity>
         </SafeAreaView>
@@ -78,12 +77,13 @@ const styles = StyleSheet.create({
 
     title: {
         fontSize: 24,
-        fontWeight: "medium"
+        fontWeight: "500"
     },
 
     label: {
         fontSize: 16,
-        color: "#838383"
+        color: "#838383",
+        marginTop: 12,
     },
 
     inputText: {
