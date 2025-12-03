@@ -135,8 +135,7 @@ const styles = StyleSheet.create(
             height: 75,
             marginBottom: 16,
             backgroundColor: 'white',
-            borderRadius: 12,
-            elevation: 2,  
+            borderRadius: 0,
         },
 
         rowBack: {
@@ -145,7 +144,6 @@ const styles = StyleSheet.create(
             backgroundColor: '#ffffffff',
             flexDirection: 'row',
             justifyContent: 'flex-end',
-            elevation: 1,
             borderRadius: 12,
             marginBottom: 10,
         },

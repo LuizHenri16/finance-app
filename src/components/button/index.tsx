@@ -9,7 +9,7 @@ interface IconButtonProps {
     navigation?: () => void
 }
 
-export const IconButton = ({icon, type, color, navigation}: IconButtonProps) => {
+export const IconButton = ({icon, type, color, navigation, ...rest}: IconButtonProps) => {
     return (
         <TouchableOpacity onPress={navigation}>
             <Icon name={icon} color={color} type={type} size={32} />
